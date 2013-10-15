@@ -10,6 +10,7 @@ import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.util.FilesystemContainer;
 import com.vaadin.data.util.TextFileProperty;
+import com.vaadin.server.ClassResource;
 import com.vaadin.server.FileResource;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinService;
@@ -20,11 +21,12 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Link;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 @SuppressWarnings("serial")
-@Theme("vaadinsimpledemo")
+@Theme("label1")
 public class VaadinDemoUI extends UI {
 
 	@WebServlet(value = "/*", asyncSupported = true)
@@ -71,6 +73,8 @@ public class VaadinDemoUI extends UI {
 		
 		sview.label1.setValue("Horizontal layout inside of the vertical.");
 		sview.label2.setValue("This is lable 2 :)");
+		sview.label2.setStyleName("textstyle");
+		
 		layout.addComponent(sview);
 		
 		// Image:
@@ -85,6 +89,10 @@ public class VaadinDemoUI extends UI {
 		// Show the image in the application
 		Image image = new Image("Image from \\WEB-INF\\images folder:", resource);
 		layout.addComponent(image);
+		
+		Link link = new Link("Link to the image file", resource);
+		layout.addComponent(link);
+
 	}
 
 }
