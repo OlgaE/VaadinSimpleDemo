@@ -6,9 +6,13 @@ import javax.servlet.annotation.WebServlet;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
+import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.util.FilesystemContainer;
+import com.vaadin.data.util.TextFileProperty;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComboBox;
@@ -26,12 +30,10 @@ public class VaadinDemoUI extends UI {
 	}
 	
 	File file = new File("\\Olga\\tmp");
-	public void check(){	
-		System.out.println(file.isDirectory());
-	}
 	FilesystemContainer docs = new FilesystemContainer(file);
-	ComboBox content = new ComboBox("Documents", docs);
-
+	ComboBox boxContent = new ComboBox("Documents", docs);
+	Label docView = new Label("",ContentMode.TEXT);
+	
 	@Override
 	protected void init(VaadinRequest request) {
 		final VerticalLayout layout = new VerticalLayout();
@@ -44,11 +46,22 @@ public class VaadinDemoUI extends UI {
 				layout.addComponent(new Label("Thank you for clicking"));
 			}
 		});
-		layout.addComponent(button);
 		
-		layout.addComponent(content);
-		VaadinDemoUI ob = new VaadinDemoUI();
-		ob.check();
+		layout.addComponent(button);
+		layout.addComponent(boxContent);
+		layout.addComponent(docView);
+		
+		System.out.println(file.isDirectory());
+		
+		boxContent.addValueChangeListener(new ValueChangeListener() {
+			
+			@Override
+			public void valueChange(ValueChangeEvent event) {
+				docView.setPropertyDataSource(new TextFileProperty((File) event.getProperty().getValue()));
+				
+			}
+		});
+		boxContent.setImmediate(true);
 	}
 
 }
